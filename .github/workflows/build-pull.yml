@@ -1,0 +1,28 @@
+---
+name: Pull Request Build
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        java: [
+          { 'version': '8', 'source': 'releases', opts: '' },
+          { 'version': '11', 'source': 'releases', opts: '' },
+          { 'version': '15', 'source': 'releases', opts: '' },
+          { 'version': '16', 'source': 'nightly', 'opts': '--illegal-access=permit'  }
+        ]
+    name: Build with Java ${{ matrix.java.version }}
+    steps:
+      - uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: maven-java-${{ matrix.java.version }}
+      - uses: actions/checkout@v2
+      - name: Install JDK ${{ matrix.java.version }} (OpenJDK)
+        uses: AdoptOpenJDK/install-jdk@v1
+        with:
+          version: ${{ matrix.java.version }}
+          source: ${{ matrix.java.source }}
