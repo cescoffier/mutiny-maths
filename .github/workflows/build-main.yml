@@ -10,7 +10,6 @@ jobs:
     strategy:
       matrix:
         java: [
-          { 'version': '8', 'source': 'releases', opts: '' },
           { 'version': '11', 'source': 'releases', opts: '' },
           { 'version': '15', 'source': 'releases', opts: '' },
           { 'version': '16', 'source': 'nightly', 'opts': '--illegal-access=permit'  }
